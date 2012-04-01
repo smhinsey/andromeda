@@ -1,0 +1,31 @@
+﻿.error-output .error-text
+{
+	border: 1px black solid;
+	width:100%;
+	background-color: #FF6666;
+	color: #331414;
+}
+
+.hidden
+{
+	display:none;
+}
+
+.visible
+{
+	display:block;
+}
+
+.gray-caret-down {
+	margin: 0px;
+	padding: 0px;
+}
+
+.gray-caret-right {
+	margin: 0px;
+	padding: 0px;
+}
+
+.inspector-inputmodel-form {
+	margin: 15px;
+}

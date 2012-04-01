@@ -1,0 +1,20 @@
+﻿@if (ForumInfo.Tags.Count > 0)
+{
+	<h3>Tags</h3>
+	<div id="tagCloud" style="height: 175px; width: 150px; position: relative;"></div>
+	<br/>
+	<p><a href="@Url.RouteUrl("Tags")">View all tags</a>.</p>
+
+	<script>
+		var tag_cloud = [
+			@foreach (var tag in ForumInfo.Tags)
+			{
+				<text>{ text: "@tag.Name", weight: @tag.TotalPosts, url: '@Url.RouteUrl("Tag", new { tagSlug = tag.Name })' },</text>
+			}
+	];
+
+	$(document).ready(function() {
+		$("#tagCloud").jQCloud(tag_cloud);
+	});
+	</script>
+}

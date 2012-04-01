@@ -1,0 +1,50 @@
+﻿@model ForumComposite.ViewModels.Profile.AllProfilesViewModel
+@{
+	ViewBag.Title = ForumInfo.ForumName + " - All Users";
+	Layout = "~/Views/Shared/_ForumLayout.cshtml";
+}
+<ul class="breadcrumb">
+	<li><a href="@Url.RouteUrl("Home")">@ForumInfo.ForumName Home</a> <span class="divider">/</span></li>
+	<li class="active">All Users</li>
+</ul>
+<h1>All Users</h1>
+<table class="zebra-striped">
+	<tbody>
+		@{
+			var userCount = 1;
+		}
+		@foreach(var user in Model.UserListing.Users)
+		{
+			<tr>
+				<td>
+					@userCount
+				</td>
+				<td><a href="@Url.RouteUrl("ProfileOverview", new { profileSlug = user.Username })">
+							<img src="https://secure.gravatar.com/avatar/4ff80c3ba10af1c3a5d86f293003cc99?s=40" /></a>
+				</td>
+				<td>
+					<h3><a href="@Url.RouteUrl("ProfileOverview", new { profileSlug = user.Username })">@user.Username</a></h3>
+				</td>
+				<td>@user.PostCount posts, @user.CommentCount comments, @user.NumberVotes votes </td>
+			</tr>
+			{
+				userCount++;
+			}
+		}
+	</tbody>
+</table>
+<hr />
+
+<div class="pagination">
+	<ul>
+		<li class="prev disabled"><a href="#">&larr; Previous</a></li>
+		<li><a href="#">1</a></li>
+		<li class="active"><a href="#">2</a></li>
+		<li><a href="#">3</a></li>
+		<li class="disabled"><a href="#">...</a></li>
+		<li><a href="#">45</a></li>
+		<li><a href="#">46</a></li>
+		<li><a href="#">47</a></li>
+		<li class="next"><a href="#">Next &rarr;</a></li>
+	</ul>
+</div>

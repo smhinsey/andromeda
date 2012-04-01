@@ -1,0 +1,115 @@
+﻿<div id="query-container">
+	<h3>{{Name}}</h3>
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#query-methods" data-toggle="tab" id="view-methods">Methods</a></li>
+		<li><a href="#form-container" data-toggle="tab" id="view-form">Form</a></li>
+		<li><a href="#results" data-toggle="tab" id="view-results">Results</a></li>
+	</ul>
+	
+	<div class="tab-content">
+		<div id="query-methods" class="tab-pane active">
+			<div class="well">
+				{{#Methods}}
+				<div>
+					<a href="#" class="method" data-query-name="{{queryName}}" data-method-name="{{Name}}" data-argument-count="{{#get-argument-count Arguments}}{{/get-argument-count}}">{{Name}}</a>
+					<small>({{#comma-delimited-list Arguments "ArgumentName"}}{{/comma-delimited-list}})</small>
+				</div>
+				{{/Methods}}
+			</div>
+		</div>
+
+		<div id="form-container" class="tab-pane">No query selected</div>
+	
+		<div id="results" class="tab-pane">
+			<div id="table-container">
+				
+			</div>
+
+			<div id="pager" class="pagination">
+				
+			</div>
+			
+			<div id="results-error"></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var queryContainer = "#query-container";
+	/// <reference path="/Assets/Scripts/Andromeda-0.9.js" />
+	$(queryContainer).on("click", ".method", function () {
+		var selectedQuery = $(this).attr("data-query-name");
+		var selectedMethod = $(this).attr("data-method-name");
+		var numberArguments = $(this).attr("data-argument-count");
+
+		$("#execute-query").attr("data-query-name", selectedQuery);
+		$("#execute-query").attr("data-method-name", selectedMethod);
+
+		if (!selectedMethod) {
+			Andromeda.displayError({ name: "Method Not Found Exception", message: "The method '" + selectedMethod + "' could not be found on query '" + selectedQuery + "'" });
+		} else {
+			Andromeda.withQuery(selectedQuery,
+				function (query) {
+					var method = query.getMethodNamed(selectedMethod, numberArguments);
+					var form = method.getForm("query-form");
+
+					$(form).addClass("well");
+					$(form).append("<input type='submit' class='btn btn-primary' value='Execute Query' id='execute-query' data-query-name='" + selectedQuery + "' data-method-name='" + selectedMethod + "' />");
+
+					$("#form-container").html("");
+					$("#form-container").append($(form));
+					$("#view-form").click();
+				});
+		}
+
+		return false;
+	});
+
+	$(queryContainer).on("click", "#execute-query", function () {
+		var selectedQuery = $(this).attr("data-query-name");
+		var selectedMethod = $(this).attr("data-method-name");
+
+		Andromeda.withFormResults($("#query-form"), function (results) {
+			var tableData = getQueryResultsObject(results, selectedQuery, selectedMethod);
+
+			if (tableData == null) {
+				//displayResults("<div class='alert alert-box'><strong>Nada</strong> The query returned no results</div>");
+				$("#results-error").html("");
+				$("#results-error").append("<div class='alert alert-box'><strong>Nada</strong> The query returned no results</div>");
+			} else {
+				Using(tableData).Fill("#table-container").With("/composite/ui/template/query-results-table");
+			}
+
+			$("#view-results").click();
+		});
+
+		return false;
+	});
+
+	function getQueryResultsObject(results, queryName, methodName) {
+		if (results == null) {
+			return null;
+		}
+		
+		if ((results instanceof Array && results.length == 0) || !results) {
+			return null;
+		} else if (!(results instanceof Array)) {
+			var tmp = new Array();
+			tmp.push(results);
+			results = tmp;
+		}
+
+		var sample = results[0];
+		var numberResults = results.length;
+		var headers = new Array();
+		for (property in sample) {
+			if (!sample.hasOwnProperty(property)) {
+				continue;
+			}
+
+			headers.push(property);
+		}
+
+		return { Headers: headers, Results: results, NumberResults: numberResults, FullQueryName: queryName + "." + methodName };
+	}
+</script>

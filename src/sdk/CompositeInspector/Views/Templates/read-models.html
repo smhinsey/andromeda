@@ -1,0 +1,21 @@
+﻿<ul class="{{ListClass}}">
+	{{#ReadModels}}
+	<li id="readmodel-{{Name}}" class="{{ItemClass}}">
+		<a href="#" class="read-model" data-agent-system-name="{{../SystemName}}" data-read-model-name="{{Name}}">{{Name}}</a>
+	</li>
+	{{/ReadModels}}
+</ul>
+
+<script type="text/javascript">
+	/// <reference path="/Assets/Scripts/Andromeda-0.9.js" />
+	$(document).ready(function () {
+		$(".read-model").click(function () {
+			var systemName = $(this).attr("data-agent-system-name");
+			var readModelName = $(this).attr("data-read-model-name");
+
+			WorkWithDataFromUrl("/composite/api/read-model/" + systemName + "/" + readModelName, function (readModel) {
+				Using({ Name: readModelName, Properties: readModel }).Fill("#output").With("/composite/ui/template/read-model");
+			});
+		});
+	});
+</script>

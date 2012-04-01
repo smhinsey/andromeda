@@ -1,0 +1,257 @@
+﻿@using Euclid.Common.Extensions
+@using Euclid.Composites.Mvc
+@using ForumComposite.Models
+@model ForumComposite.ViewModels.Post.PostDetailViewModel
+@{
+	ViewBag.Title = ForumInfo.ForumName + " - " + Model.Post.InitialPost.Title;
+	Layout = "~/Views/Shared/_ForumLayout.cshtml";
+}
+@section HeadContent {
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#addComment").click(function () {
+				$("#addComment").hide();
+				$("#addCommentForm").show();
+			});
+
+			$("#publishComment").click(function () {
+				$("#addComment").show();
+				$("#addCommentForm").hide();
+			});
+
+			$("#cancelComment").click(function () {
+				$("#addComment").show();
+				$("#addCommentForm").hide();
+			});
+
+			$("#addReply").click(function () {
+				$("#addReply").hide();
+				$("#addReplyForm").show();
+				$("#publishReply").focus();
+				$("#newReplyBody").focus();
+			});
+
+			$("#publishReply").click(function () {
+				$("#addReply").show();
+				$("#addReplyForm").hide();
+			});
+
+			$("#cancelReply").click(function () {
+				$("#addReply").show();
+				$("#addReplyForm").hide();
+			});
+
+			if (window.location.hash == "#addcomment") {
+				$("#addComment").hide();
+				$("#addCommentForm").show();
+			}
+		});
+	</script>
+	<style type="text/css">
+		.comment {
+			margin-top: 15px;
+			margin-bottom: 15px;
+		}
+	</style>
+}
+<ul class="breadcrumb">
+	<li><a href="@Url.RouteUrl("Home")">@ForumInfo.ForumName Home</a> <span class="divider">/</span></li>
+	<li><a href="@Url.RouteUrl("Categories")">Categories</a> <span class="divider">/</span></li>
+	<li><a href="@Url.RouteUrl("Category", new { categorySlug = Model.Post.Category.Slug })">@Model.Post.Category.Name</a> <span class="divider">/</span></li>
+	<li class="active">@Model.Post.InitialPost.Title</li>
+</ul>
+<h1>@Model.Post.InitialPost.Title</h1>
+
+<div class="row">
+
+	<div class="span16">
+
+		<div class="row">
+
+			<div class="span12">
+				<p>@Model.Post.InitialPost.Body<a name="addcomment"></a></p>
+			</div>
+			<div class="span2">
+				@using (Html.BeginFormForInputModel(new VoteOnPostInputModel()))
+				{
+					@Html.Hidden("ForumIdentifier", ForumInfo.ForumIdentifier)
+					@Html.Hidden("AuthorIdentifier", ForumInfo.AuthenticatedUserIdentifier)
+	 				@Html.Hidden("PostIdentifier", Model.Post.InitialPost.Identifier)
+	 				@Html.Hidden("VoteUp", true)
+					<input style="display: inline; height: 16px; width: 16px; border: 0px;" type="image" src="@Url.Content("~/Content/themes/" + ForumInfo.ForumTheme + "/images/arrow-090.png")" />
+					<text>&nbsp;&nbsp;&nbsp;</text>
+				}
+				(@Model.Post.InitialPost.Score)
+				@using (Html.BeginFormForInputModel(new VoteOnPostInputModel()))
+				{
+					@Html.Hidden("ForumIdentifier", ForumInfo.ForumIdentifier)
+					@Html.Hidden("AuthorIdentifier", ForumInfo.AuthenticatedUserIdentifier)
+	 				@Html.Hidden("PostIdentifier", Model.Post.InitialPost.Identifier)
+	 				@Html.Hidden("VoteUp", false)
+					<input style="display: inline; height: 16px; width: 16px; border: 0px;" type="image" src="@Url.Content("~/Content/themes/" + ForumInfo.ForumTheme + "/images/arrow-270.png")" />
+					<text>&nbsp;&nbsp;&nbsp;</text>
+				}
+				<a href="#"><img title="Report abusive content" src="@Url.Content("~/Content/themes/" + ForumInfo.ForumTheme + "/images/exclamation-white.png")" /></a>&nbsp;&nbsp;&nbsp;
+				@using (Html.BeginFormForInputModel(new MarkPostAsFavoriteInputModel()))
+				{
+					@Html.Hidden("ForumIdentifier", ForumInfo.ForumIdentifier)
+					@Html.Hidden("UserIdentifier", ForumInfo.AuthenticatedUserIdentifier)
+					@Html.Hidden("PostIdentifier", Model.Post.Identifier)
+					if (Model.IsFavoritePost)
+					{
+						<input style="display: inline; height: 16px; width: 16px; border: 0px;" type="image" border="0" height="16" width="16" title="Mark as favorite" src="@Url.Content("~/Content/themes/" + ForumInfo.ForumTheme + "/images/star.png")"/>
+					}
+					else
+					{
+						<input style="display: inline; height: 16px; width: 16px; border: 0px;" type="image" border="0" height="16" width="16" title="Mark as favorite" src="@Url.Content("~/Content/themes/" + ForumInfo.ForumTheme + "/images/star-empty.png")"/>
+					}
+				}
+
+			</div>
+			
+		</div>
+		
+		
+
+		<hr />
+
+		<div class="row">
+			<div class="span6">
+				<button id="addComment" class="btn large primary">Add a Comment</button>
+				<div id="addCommentForm" style="display: none;">
+					@Html.Partial("NewComment", new CommentOnPostInputModel() { PostIdentifier = Model.Post.Identifier })
+				</div>
+
+			</div>
+
+			<div class="span6" style="text-align: right;">
+
+			</div>
+
+		</div>
+
+		<hr />
+
+		<div class="row">
+
+			<div class="span6">
+				<h2>Comments</h2><a name="comments"></a>
+			</div>
+
+@*			<div class="span6">
+				<ul class="pills" style="float: right;">
+					<li class="active"><a href="@Url.RouteUrl("Post", new { categorySlug = "my-category", postSlug = "post-title" })">Best</a></li>
+					<li><a href="@Url.RouteUrl("Post", new { categorySlug = "my-category", postSlug = "post-title" })">Oldest</a></li>
+					<li><a href="@Url.RouteUrl("Post", new { categorySlug = "my-category", postSlug = "post-title" })">Newest</a></li>
+				</ul>
+			</div>*@
+
+		</div>
+
+		<hr style="margin-top: 0px;" />
+
+		@foreach (var comment in Model.Post.Comments)
+	{
+
+			<div class="comment">
+				<div class="row">
+					<div class="span3">
+						<div class="row">
+							<div class="span1" style="margin-top: 4px;">
+								<a href="@Url.RouteUrl("ProfileOverview", new { profileSlug = comment.AuthorDisplayName.Slugify() })">
+									<img src="https://secure.gravatar.com/avatar/4ff80c3ba10af1c3a5d86f293003cc99?s=30" /></a>
+							</div>
+							<div class="span2" style="margin-left: 0px;">
+								<a href="@Url.RouteUrl("ProfileOverview", new { profileSlug = comment.AuthorDisplayName.Slugify() })">@comment.AuthorDisplayName</a><br />
+								<small style="font-size: smaller;">About an hour ago</small>
+							</div>
+						</div>
+					</div>
+					<div class="span9">
+						<p>@comment.Body</p>
+					</div>
+				</div>
+@*				<div class="row">
+					<div class="span8 offset3">
+						<button class="btn small">Reply</button>
+					</div>
+				</div>*@
+			</div>		
+	}
+
+		@*		<!-- comment replies, which aren't currently implemented -->
+		<div class="comment">
+
+			<div class="row">
+
+				<div class="span6 offset3">
+					<p>Initial replies are indented to indicate hierarchy. Lorem ipsum dolor sit amet,
+						consectetur adipiscing elit. Pellentesque tristique massa eget est accumsan quis
+						tincidunt libero facilisis. In ac tortor diam, sit amet volutpat.</p>
+				</div>
+
+				<div class="span3">
+
+					<div class="row">
+
+						<div class="span1" style="margin-top: 4px;">
+							<a href="@Url.RouteUrl("ProfileOverview", new { profileSlug = "my-profile-slug" })">
+								<img src="https://secure.gravatar.com/avatar/4ff80c3ba10af1c3a5d86f293003cc99?s=30" /></a>
+						</div>
+
+						<div class="span2" style="margin-left: 0px;">
+							<a href="@Url.RouteUrl("ProfileOverview", new { profileSlug = "my-profile-slug" })">Username</a><br />
+							<small style="font-size: smaller;">About an hour ago</small>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="row">
+
+				<div class="span8 offset3">
+					<p style="font-size: smaller;"><button id="addReply" class="btn small primary">Reply</button></p>
+				</div>
+
+			</div>
+
+		</div>*@
+
+		<div class="row">
+
+			<div class="span9 offset3">
+				<hr />
+				<button id="addReply" class="btn primary">Add a Comment</button>
+
+				<div id="addReplyForm" style="display: none;">
+					<form>
+						<fieldset><legend style="padding-left: 0px;">Add a Comment</legend>
+
+							<div class="clearfix">
+
+								<div class="input" style="margin-left: 0px;">
+									<textarea class="xxlarge" id="newReplyBody" name="newReplyBody" rows="6"></textarea>
+									<span class="help-block">Please be civil.</span>
+								</div>
+
+							</div>
+
+							<div class="actions" style="padding-left: 15px;">
+								<input id="publishReply" type="button" class="btn primary" value="Publish Comment" />
+								<input id="cancelReply" type="button" class="btn" value="Cancel" />
+							</div>
+
+						</fieldset>
+					</form>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

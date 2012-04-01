@@ -1,0 +1,100 @@
+﻿@using Euclid.Common.Extensions
+@using Euclid.Composites.Mvc
+@using ForumComposite.Models
+@{
+	var header = "h2";
+	var button = "btn";
+	var arrowSize = "";
+	var text = "";
+	var textLength = 50;
+	var mode = Page.Mode ?? "standard";
+
+	mode = mode.ToLower();
+}
+@if (Page.Size.ToLower() == "XLarge".ToLower())
+{
+	header = "h2";
+	button = "btn";
+	arrowSize = "";
+	text = "";
+	textLength = 50;
+}
+else if (Page.Size.ToLower() == "Large".ToLower())
+{
+	header = "h2";
+	button = "btn";
+	arrowSize = "";
+	text = "";
+	textLength = 30;
+}
+else if (Page.Size.ToLower() == "Medium".ToLower())
+{
+	header = "h3";
+	button = "btn";
+	arrowSize = "-medium";
+	text = "";
+	textLength = 25;
+}
+else if (Page.Size.ToLower() == "Small".ToLower())
+{
+	header = "h3";
+	button = "btn small";
+	arrowSize = "-medium";
+	text = "font-size: smaller;";
+	textLength = 20;
+}
+@if (mode == "standard")
+{
+	<text>
+		<div class="@Page.Size.ToLower()" style="padding-top: 25px; padding-left: 5px; padding-right: 5px; padding-bottom: 5px; float: right; clear: left;">
+			@using (Html.BeginFormForInputModel(new VoteOnPostInputModel()))
+	 {
+				@Html.Hidden("ForumIdentifier", ForumInfo.ForumIdentifier)
+				@Html.Hidden("AuthorIdentifier", ForumInfo.AuthenticatedUserIdentifier)
+				@Html.Hidden("PostIdentifier", (Guid)Page.Post.Identifier)
+				@Html.Hidden("VoteUp", true)
+				<input style="display: inline; height: 16px; width: 16px; border: 0px;" type="image" src="@Url.Content("~/Content/themes/" + ForumInfo.ForumTheme + "/images/arrow-090" + @arrowSize + ".png")" />
+				<br />
+	 }
+			(@Page.Post.Score)<br/>
+			@using (Html.BeginFormForInputModel(new VoteOnPostInputModel()))
+	 {
+				@Html.Hidden("ForumIdentifier", ForumInfo.ForumIdentifier)
+				@Html.Hidden("AuthorIdentifier", ForumInfo.AuthenticatedUserIdentifier)
+				@Html.Hidden("PostIdentifier", (Guid)Page.Post.Identifier)
+				@Html.Hidden("VoteUp", false)
+				<input style="display: inline; height: 16px; width: 16px; border: 0px;" type="image" src="@Url.Content("~/Content/themes/" + ForumInfo.ForumTheme + "/images/arrow-270" + @arrowSize + ".png")" />
+				<br />
+	 }
+			<img src="@Url.Content("~/Content/themes/" + ForumInfo.ForumTheme + "/images/exclamation-white.png")" /><br />
+		</div>
+
+	<@header><a href="@Url.RouteUrl("Post", new { postIdentifier = Page.Post.Identifier, postSlug = Page.Post.Slug })">@Page.Post.Title</a></@header>
+	<p style="@text">@truncate(Page.Post.Body, textLength)
+		&mdash; <span style="text-align: right; font-size: smaller;"><em>@Page.Post.Created.ToString("h:mm tt M/d/yyyy")</em>
+							 by <em><a href="@Url.RouteUrl("ProfileOverview", new { profileSlug = @Page.Post.AuthorDisplayName })">@Page.Post.AuthorDisplayName</a></em> <a href="@Url.RouteUrl("Category", new { categorySlug = @Page.Post.CategorySlug })" class="label">
+								 	@Page.Post.CategoryName</a></span></p>
+	<p><span style="padding-top: 7px; text-align: right; font-size: smaller;">
+		 	<img src="@Url.Content("~/Content/themes/" + ForumInfo.ForumTheme + "/images/balloon-white.png")" />
+		 	<a href="@Url.RouteUrl("Post", new { postIdentifier = Page.Post.Identifier, postSlug = Page.Post.Slug })#comments">
+				@Page.Post.CommentCount comments</a></span>&nbsp;&nbsp;&nbsp;<a class="@button" href="@Url.RouteUrl("Post", new { postIdentifier = Page.Post.Identifier, postSlug = Page.Post.Slug })#addcomment">Add comment &raquo;</a>
+	</p>
+	</text>
+}
+else if (mode == "condensed")
+{
+	<text>
+		<p style="@text"><b><a href="@Url.RouteUrl("Post", new { postIdentifier = Page.Post.Identifier, postSlug = Page.Post.Slug })">@Page.Post.Title</a></b><br />
+			@truncate(Page.Post.Body, 10)<br />
+			<span style="font-size: smaller;"><em>@Page.Post.Created.ToString("h:mm tt M/d/yyyy")</em> by <a href="@Url.RouteUrl("ProfileOverview", new { profileSlug = Page.Post.AuthorDisplayName })">
+																																			@Page.Post.AuthorDisplayName</a> with <a href="@Url.RouteUrl("Post", new { categorySlug = "my-category", postSlug = "post-title" })#comments">@Page.Post.CommentCount comments.</a></span> </p>
+	</text>
+}
+@helper truncate(string text, int numberOfWords)
+	{
+		var words = text.Split(' ');
+
+		var truncatedWords = words.Take(numberOfWords).ToList();
+	
+	@String.Join(" ", truncatedWords)
+}

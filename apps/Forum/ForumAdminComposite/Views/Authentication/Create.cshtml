@@ -1,0 +1,141 @@
+﻿@using AdminComposite.Areas.Forum.InputModels
+@using Euclid.Composites.Mvc
+@model AdminComposite.Areas.Forum.InputModels.CreateOrganizationAndRegisterUserInputModel
+		   
+@{
+	ViewBag.Title = "Create a User";
+	Layout = "_AnonymousLayout.cshtml";
+}
+
+@section mainNav {
+	@{Html.RenderPartial("_AnonymousUserNavigation");}
+}
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		var validUsername = false;
+//		$("#submit-form").click(function () {
+//			var processForm = true;
+//			if ($("#password").val() != $("#confirm-password").val()) {
+//				EUCLID.displayError({ name: "Password error", message: "The password and confirmation don't match" });
+//				processForm = false;
+//				event.preventDefaults();
+//			}
+
+//			if (!validUsername) {
+//				EUCLID.displayError({ name: "Invalid username", message: "The username you've entered is already taken" });
+//				processForm = false;
+//				event.preventDefaults();
+//			}
+
+//			return processForm;
+//		});
+
+//		$("#username").keyup(function (event) {
+//			var username = $(this).val();
+//			if (username == "") return;
+
+//			validUsername = !doesUsernameExist(username);
+
+//			if (validUsername) {
+//				$(this).css("border", "2px solid green");
+//			} else {
+//				$(this).css("border", "2px solid red");
+//			}
+//		});
+
+//		$("#username").focus(function () {
+//			$(this).keyup();
+//		});
+
+//		$("#username").blur(function (event) {
+//			$(this).css("border", "");
+//		});
+
+		$("#organization-name").blur(function () {
+			if ($("#organization-slug").val() == "") {
+				var slug = slugify($("#organization-name").val());
+				$("#organization-slug").val(slug);
+			}
+		});
+
+//		function doesUsernameExist(username) {
+//			var results = EUCLID.executeQuery({ queryName: "OrganizationUserQueries", methodName: "FindByUsername", parameters: { username: username} });
+//			return results != null;
+//		}
+	});
+</script>
+
+<article>
+	<header>
+		<h2>Create Account</h2>
+	</header>
+	<section class="note-container">
+		<p class="note">Fields marked with an * are required</p>
+	</section>
+</article>
+
+@using (Html.BeginFormForInputModel(Model, true, Url.Action("Signin", "Authentication")))
+{
+	@Html.ValidationSummary();
+	<fieldset>
+		<legend>Organization</legend>
+
+		<dl>
+			<dt>@Html.LabelFor(m=>m.OrganizationName)</dt>
+			<dd>@Html.TextBoxFor(m => Model.OrganizationName, new { id = "organization-name" })</dd>
+		
+			<dt>@Html.LabelFor(m=>m.OrganizationSlug)</dt>
+			<dd>@Html.TextBoxFor(m => Model.OrganizationSlug, new { id = "organization-slug" })</dd>
+
+			<dt>@Html.LabelFor(m=>m.OrganizationUrl)</dt>
+			<dd>@Html.TextBoxFor(m => Model.OrganizationUrl, new { id = "organization-url" })</dd>
+
+			<dt>@Html.LabelFor(m=>m.PhoneNumber)</dt>
+			<dd>@Html.TextBoxFor(m => Model.PhoneNumber, new { id = "organization-phone" })</dd>
+
+			<dt>@Html.LabelFor(m=>m.Address)</dt>
+			<dd>@Html.TextBoxFor(m => Model.Address, new { id = "organization-address-1" })</dd>
+
+			<dt>@Html.LabelFor(m=>m.Address2)</dt>
+			<dd>@Html.TextBoxFor(m => Model.Address2, new { id = "organization-address-2" })</dd>
+
+			<dt>@Html.LabelFor(m=>m.City)</dt>
+			<dd>@Html.TextBoxFor(m => Model.City, new { id = "organization-city" })</dd>
+
+			<dt>@Html.LabelFor(m=>m.State)</dt>
+			<dd>@Html.TextBoxFor(m => Model.State, new { id = "organization-state" })</dd>
+
+			<dt>@Html.LabelFor(m=>m.Zip)</dt>
+			<dd>@Html.TextBoxFor(m => Model.Zip, new { id = "organization-zip" })</dd>
+
+			<dt>@Html.LabelFor(m=>m.Country)</dt>
+			<dd>@Html.TextBoxFor(m => Model.Country, new { id = "organization-country" })</dd>
+		</dl>
+	</fieldset>
+
+	<fieldset>
+		<legend>User</legend>
+		<dl>
+			<dt><label for="first-name">First Name*</label></dt>
+			<dd>@Html.TextBoxFor(m => Model.FirstName, new { id = "first-name" })</dd>
+
+			<dt><label for="last-name">Last Name*</label></dt>
+			<dd>@Html.TextBoxFor(m => Model.LastName, new { id = "last-name" })</dd>
+
+			<dt><label for="email">Email*</label></dt>
+			<dd>@Html.TextBoxFor(m => Model.Email, new { id = "email" })</dd>
+
+			<dt><label for="username">Username*</label></dt>
+			<dd>@Html.TextBoxFor(m => Model.Username, new { id = "username" })</dd>
+
+			<dt><label for="password">Password</label></dt>
+			<dd>@Html.PasswordFor(m => Model.Password, new { id = "password" })</dd>
+
+			<dt><label for="confirm-password">Confirm Password</label></dt>
+			<dd><input type="password" id="confirm-password"/></dd>
+		</dl>
+	</fieldset>
+
+	<input type="submit" value="Sign up" class="button" id="submit-form"/>
+}

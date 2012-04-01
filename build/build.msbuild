@@ -1,0 +1,174 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" DefaultTargets="PackageEverything">
+	<PropertyGroup>
+		<BaseDir>$(MSBuildProjectDirectory)\..\</BaseDir>
+		<Configuration Condition="'$(Configuration)'==''" >Release</Configuration>
+		<OutputDir>.\buildoutput</OutputDir>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<MSBuildExtensions>.\MSBuild.Community.Tasks.dll</MSBuildExtensions>
+	</PropertyGroup>
+
+	<UsingTask AssemblyFile="$(MSBuildExtensions)" TaskName="MSBuild.Community.Tasks.XmlUpdate" />
+
+	<!-- 
+		Can be run in a local dev environment or on a CI server.
+
+		* Remove all artifacts from any previous builds
+		* Update all relevant values in AssemblyInfo.cs files (use SemVer)
+		* Compile Andromeda.sln
+		* Obtain all Common assemblies and combine with ilmerge where appropriate. For now, don't merge dependencies.
+		* Obtain all Framework assemblies and combine with ilmerge where appropriate. For now, don't merge dependencies.
+		* Obtain all SDK assemblies and combine with ilmerge where appropirate. For now, don't merge dependencies.
+		* Create nuget package for Common, using nuget dependencies for things such as nHibernate where possible.
+		* Create nuget package for Framework, using nuget dependencies for Andromeda.Common and anything else that makes sense.
+		* Create nuget package for SDK, one per composite.
+		* Update local nuget feed
+		* (CI server only) publish updated nuget feed
+
+		The below is a very rough initial draft at some of the previously mentioned steps. It should not be considered authoritative or
+		final in any way. (Remove this comment when this changes.)
+	-->
+
+	<ItemGroup>
+		<CommonProjects Include="$(BaseDir)\src\common\**\*.csproj"/>
+
+		<FrameworkProjects Include="$(BaseDir)\src\framework\**\*.csproj"/>
+
+		<SDKProjects Include="$(BaseDir)\src\sdk\Andromeda.Composites\*.csproj;
+									$(BaseDir)\src\sdk\Andromeda.Composites.Mvc\*.csproj;
+									$(BaseDir)\src\sdk\Andromeda.TestingSupport\*.csproj"/>
+
+		<InspectorProjects 
+						   Include="$(BaseDir)\src\common\Andromeda.Common\*.csproj;
+									$(BaseDir)\src\common\Andromeda.Common.Storage\*.csproj;
+									$(BaseDir)\src\sdk\Andromeda.Composites\*.csproj;
+									$(BaseDir)\src\sdk\Andromeda.Composites.Mvc\*.csproj;
+									$(BaseDir)\src\Framework\Andromeda.Framework\*.csproj;
+									$(BaseDir)\src\Framework\Andromeda.Framework.AgentMetadata\*.csproj;
+									$(BaseDir)\src\Framework\Andromeda.Framework.Cqrs.NHibernate\*.csproj;
+									$(BaseDir)\src\Framework\Andromeda.Framework.Models\*.csproj;
+									$(BaseDir)\src\sdk\CompositeInspector\*.csproj" />
+	</ItemGroup>
+
+	<Target Name="BuildCommon">
+		<MSBuild Projects="@(CommonProjects)" Properties="Configuration=$(Configuration);Platform=$(Platform)">
+			<Output TaskParameter="TargetOutputs" ItemName="CommonOutput"/>
+		</MSBuild>
+
+		<ItemGroup>
+			<Binaries Include="$(BaseDir)\src\common\**\bin\$(Configuration)\*.dll"/>
+		</ItemGroup>
+
+		<Copy SourceFiles="@(Binaries)" DestinationFolder="$(OutputDir)\common"/>
+	</Target>
+
+	<Target Name="BuildFramework">
+		<MSBuild Projects="@(FrameworkProjects)" Properties="Configuration=$(Configuration);Platform=$(Platform)">
+			<Output TaskParameter="TargetOutputs" ItemName="CommonOutput"/>
+		</MSBuild>
+
+		<ItemGroup>
+			<Binaries Include="$(BaseDir)\src\framework\**\bin\$(Configuration)\*.dll"/>
+		</ItemGroup>
+
+		<Copy SourceFiles="@(Binaries)" DestinationFolder="$(OutputDir)\framework"/>
+	</Target>
+
+	<Target Name="BuildSDK">
+		<MSBuild Projects="@(SDKProjects)" Properties="Configuration=$(Configuration);Platform=$(Platform)">
+			<Output TaskParameter="TargetOutputs" ItemName="CommonOutput"/>
+		</MSBuild>
+
+		<ItemGroup>
+			<Binaries Include="$(BaseDir)\src\sdk\Andromeda.Composites\bin\$(Configuration)\*.dll;
+									$(BaseDir)\src\sdk\Andromeda.TestingSupport\bin\$(Configuration)\*.dll"/>
+		</ItemGroup>
+
+		<Copy SourceFiles="@(Binaries)" DestinationFolder="$(OutputDir)\sdk"/>
+	</Target>
+
+	<Target Name="BuildInspector">
+		<MSBuild Projects="@(InspectorProjects)" Properties="Configuration=$(Configuration);Platform=$(Platform)">
+			<Output TaskParameter="TargetOutputs" ItemName="CommonOutput"/>
+		</MSBuild>
+
+		<ItemGroup>
+			<Binaries Include="$(BaseDir)\src\common\Andromeda.Common\bin\$(Configuration)\*.dll;
+									$(BaseDir)\src\common\Andromeda.Common.Storage\bin\$(Configuration)\*.dll;
+									$(BaseDir)\src\sdk\Andromeda.Composites\bin\$(Configuration)\*.dll;
+									$(BaseDir)\src\sdk\Andromeda.Composites.Mvc\bin\$(Configuration)\*.dll;
+									$(BaseDir)\src\Framework\Andromeda.Framework\bin\$(Configuration)\*.dll;
+									$(BaseDir)\src\Framework\Andromeda.Framework.AgentMetadata\bin\$(Configuration)\*.dll;
+									$(BaseDir)\src\Framework\Andromeda.Framework.Cqrs.NHibernate\bin\$(Configuration)\*.dll;
+									$(BaseDir)\src\Framework\Andromeda.Framework.Models\bin\$(Configuration)\*.dll;
+									$(BaseDir)\src\sdk\CompositeInspector\bin\$(Configuration)\*.dll"/>
+		</ItemGroup>
+
+		<Copy SourceFiles="@(Binaries)" DestinationFolder="$(OutputDir)\inspector"/>
+
+		<!-- these can't/shouldn't be part of our nuget package -->
+		<Delete Files="$(OutputDir)\inspector\msshrtmi.dll"/>
+		<Delete Files="$(OutputDir)\inspector\System.Web.Razor.dll"/>
+		<Delete Files="$(OutputDir)\inspector\RouteDebugger.dll"/>
+		<Delete Files="$(OutputDir)\inspector\pnunit.framework.dll"/>
+		<Delete Files="$(OutputDir)\inspector\nunit.framework.dll"/>
+		<Delete Files="$(OutputDir)\inspector\nunit.mocks.dll"/>
+		<Delete Files="$(OutputDir)\inspector\TechTalk.Specflow.dll"/>
+		<Delete Files="$(OutputDir)\inspector\Andromeda.TestingSupport.dll" />
+	</Target>
+
+	<Target Name="CleanAll">
+		<ItemGroup>
+			<OutputDir Include=".\buildoutput\**\*.*" />
+			<PackageDir Include=".\prepackage\**\*.*" />
+		</ItemGroup>
+
+		<Delete Files="@(OutputDir)" />
+		<Delete Files="@(PackageDir)" />
+		<RemoveDir Directories=".\buildoutput" />
+		<RemoveDir Directories=".\prepackage" />
+	</Target>
+
+	<Target Name="BuildAll" DependsOnTargets="CleanAll; BuildCommon; BuildFramework; BuildSDK; BuildInspector">
+		<Message Text="Compiling Andromeda Common, Framework, SDK, and Inspector."/>
+	</Target>
+
+	<Target Name="PackageEverything" DependsOnTargets="BuildAll">
+
+		<Message Text="Packaging Andromeda SDK and Inspector."/>
+
+		<ItemGroup>
+			<SdkNuSpec Include="$(MSBuildProjectDirectory)\AndromedaSDK.nuspec"/>
+			<InspectorNuSpec Include="$(MSBuildProjectDirectory)\AndromedaCompositeInspector.nuspec"/>
+			<CommonOutput Include="$(OutputDir)\common\*.*"/>
+			<FrameworkOutput Include="$(OutputDir)\framework\*.*"/>
+			<SDKOutput Include="$(OutputDir)\sdk\*.*"/>
+			<InspectorOutput Include="$(OutputDir)\inspector\*.*"/>
+		</ItemGroup>
+
+		<Copy SourceFiles="@(SdkNuSpec)" DestinationFolder=".\prepackage\sdk"/>
+		<Copy SourceFiles="@(CommonOutput)" DestinationFolder=".\prepackage\sdk\lib\NET40"/>
+		<Copy SourceFiles="@(FrameworkOutput)" DestinationFolder=".\prepackage\sdk\lib\NET40"/>
+		<Copy SourceFiles="@(SDKOutput)" DestinationFolder=".\prepackage\sdk\lib\NET40"/>
+
+		<Copy SourceFiles="@(InspectorNuSpec)" DestinationFolder=".\prepackage\inspector"/>
+		<Copy SourceFiles="@(InspectorOutput)" DestinationFolder=".\prepackage\inspector\lib\NET40"/>
+
+		<ItemGroup>
+			<SdkPackageDir Include="$(BaseDir)\prepackage\sdk"/>
+			<InspectorPackageDir Include="$(BaseDir)\prepackage\inspector"/>
+		</ItemGroup>
+
+		<GetAssemblyIdentity AssemblyFiles="$(OutputDir)\inspector\Andromeda.Common.dll">
+			<Output TaskParameter="Assemblies" ItemName="AndromedaCommonAssembly"/>
+		</GetAssemblyIdentity>
+
+		<Exec WorkingDirectory="." Command="nuget.exe pack .\prepackage\sdk\AndromedaSDK.nuspec -Version %(AndromedaCommonAssembly.Version)" />
+
+		<Exec WorkingDirectory="." Command="nuget.exe pack .\prepackage\inspector\AndromedaCompositeInspector.nuspec -Version %(AndromedaCommonAssembly.Version)" />
+	</Target>
+
+	<Target Name="UpdateNuget">
+		<Exec WorkingDirectory="." Command="nuget.exe update -self" />
+	</Target>
+
+</Project>

@@ -1,0 +1,40 @@
+﻿@using Euclid.Common.Extensions
+@model ForumComposite.ViewModels.Profile.ProfileBadgesViewModel
+@{
+	ViewBag.Title = ForumInfo.ForumName + " - " + Model.User.Username + "'s Badges";
+	Layout = "~/Views/Shared/_ForumLayout.cshtml";
+	ViewBag.ProfileBadgesClass = "active";
+}
+<ul class="breadcrumb">
+	<li><a href="@Url.RouteUrl("Home")">@ForumInfo.ForumName Home</a> <span class="divider">/</span></li>
+	<li><a href="@Url.RouteUrl("AllProfiles")">All Users</a> <span class="divider">/</span></li>
+	<li><a href="@Url.RouteUrl("ProfileOverview", new { profileSlug = Model.User.Username.Slugify() })">@Model.User.Username</a> <span class="divider">/</span></li>
+	<li class="active">Badges</li>
+</ul>
+<h1>@Model.User.Username's Badges</h1>
+<hr />
+@Html.Partial("_Tabs", Model.User.Username.Slugify())
+<div class="row">
+
+	<div class="span12">
+		<ul class="media-grid">
+			<li class="thumbnail"><a href="#">
+															<img src="http://placehold.it/210x150" /></a></li>
+			<li class="thumbnail"><a href="#">
+															<img src="http://placehold.it/210x150" /></a></li>
+			<li class="thumbnail"><a href="#">
+															<img src="http://placehold.it/210x150" /></a></li>
+			<li class="thumbnail"><a href="#">
+															<img src="http://placehold.it/210x150" /></a></li>
+			<li class="thumbnail"><a href="#">
+															<img src="http://placehold.it/210x150" /></a></li>
+			<li class="thumbnail"><a href="#">
+															<img src="http://placehold.it/210x150" /></a></li>
+			<li class="thumbnail"><a href="#">
+															<img src="http://placehold.it/210x150" /></a></li>
+			<li class="thumbnail"><a href="#">
+															<img src="http://placehold.it/210x150" /></a></li>
+		</ul>
+	</div>
+
+</div>

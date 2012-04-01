@@ -1,0 +1,14 @@
+﻿@{
+	ViewBag.Title = "Logged out";
+	Layout = "_AnonymousLayout.cshtml";
+}
+
+@section mainNav {
+	@{Html.RenderPartial("_AnonymousUserNavigation");}
+}
+
+<article>
+	<header>
+		<h2>You have been signed out of the forum admin</h2>
+	</header>
+</article>

@@ -1,0 +1,35 @@
+﻿<form class="form-horizontal" style="margin: 15px;">
+
+<div class="control-group">
+	<h3>{{Name}}</h3>
+</div>
+
+{{#each Query}}
+
+<div class="control-group">
+	<b>{{Name}}</b>
+</div>
+
+{{#each Arguments}}
+
+<div class="control-group">
+	<label class="control-label" for="input-{{slugify Name}}">{{Name}}</label>
+
+	<div class="controls">
+		<input type="text" class="input-medium" id="Text1">
+	</div>
+
+</div>
+
+{{/each}}
+
+<div class="control-group">
+
+	<div class="controls">
+		<a href="/composite/new/#explorer/agent/{{../AgentSystemName}}/query/{{../Name}}/results" class="btn btn-primary">Run Query</a>
+	</div>
+
+</div>
+
+{{/each}}
+</form>

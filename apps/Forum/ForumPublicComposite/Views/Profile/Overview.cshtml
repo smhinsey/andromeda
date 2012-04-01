@@ -1,0 +1,53 @@
+﻿@using Euclid.Common.Extensions
+@using Euclid.Composites.Mvc
+@using ForumComposite.Models
+@model ForumComposite.ViewModels.Profile.ProfileOverviewViewModel
+@{
+	ViewBag.Title = ForumInfo.ForumName + " - " + Model.User.Username + "'s Profile";
+	Layout = "~/Views/Shared/_ForumLayout.cshtml";
+	ViewBag.ProfileOverviewClass = "active";
+}
+<ul class="breadcrumb">
+	<li><a href="@Url.RouteUrl("Home")">@ForumInfo.ForumName Home</a> <span class="divider">/</span></li>
+	<li><a href="@Url.RouteUrl("AllProfiles")">All Users</a> <span class="divider">/</span></li>
+	<li class="active">@Model.User.Username</li>
+</ul>
+<h1>@Model.User.Username's Profile</h1>
+<hr />
+
+@Html.Partial("_Tabs", Model.User.Username.Slugify())
+
+<div class="row">
+
+	<div class="span3">
+		<img src="https://secure.gravatar.com/avatar/4ff80c3ba10af1c3a5d86f293003cc99?s=150" />
+	</div>
+
+	<div class="span6">
+		<h3>@Model.User.Username</h3>
+		<p>@Model.User.BadgeCount badges | @Model.User.PointTotal points | @Model.User.CommentCount comments | @Model.User.PostCount posts</p>
+		<p>Located in Arlington, Virginia, USA</p>
+		<b>Custom profile fields</b>
+		<ul>
+			<li>Favorite Music: Loud</li>
+			<li>Political Affiliation: Kodos (why vote for the lesser of two evils?)</li>
+		</ul>
+		
+		@if(Model.IsCurrentUser)
+		{
+			<a href="#">Edit</a>
+		}
+		else
+		{
+			using (Html.BeginFormForInputModel(new AddForumUserAsFriendInputModel()))
+			{
+				@Html.Hidden("ForumIdentifier", ForumInfo.ForumIdentifier)
+				@Html.Hidden("UserIdentifier", ForumInfo.AuthenticatedUserIdentifier)
+				@Html.Hidden("FriendIdentifier", Model.User.Identifier)
+
+				<input type="submit" class="btn small" value="Add Friend"/>
+			}
+		}
+	</div>
+
+</div>

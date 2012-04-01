@@ -1,0 +1,21 @@
+﻿@{
+	var controller = ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().ToLower();
+	var action = ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().ToLower();
+}
+<script>
+	$(document).ready(function() {
+		$("#action-link").click();
+	})
+</script>
+<nav id="main-nav">
+	<ul>
+		<li>
+			<a href="#" title="Actions" class="articles" id="action-link">Actions</a>
+			<ul style="display: block">
+				<li @if (action == "create" && controller == "authentication"){<text>class="current"</text>}>@Html.ActionLink("Sign up", "Create", "Authentication")</li>
+				<li @if (action == "signin" && controller == "authentication"){<text>class="current"</text>}>@Html.ActionLink("Sign in", "Signin", "Authentication")</li>
+				<li @if (action == "forgotpassword" && controller == "authentication"){<text>class="current"</text>}>@Html.ActionLink("Forgot Password", "ForgotPassword", "Authentication")</li>
+			</ul>
+		</li>
+	</ul>
+</nav>

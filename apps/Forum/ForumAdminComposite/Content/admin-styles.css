@@ -1,0 +1,173 @@
+﻿.input-container
+{
+	margin-top: 15px;
+}
+
+.note-container
+{
+	margin-top: 15px;
+}
+
+.note
+{
+	color: #999;
+	font-size: 12px;
+}
+
+.help-image:hover
+{
+	cursor: help;
+}
+
+.current-unread
+{
+	background-color: honeydew !important;
+}
+
+.hidden
+{
+	display: none !important;
+}
+
+#main-nav ul li a.users
+{
+	background-image: url('sample_user_icon.png');
+}
+#main-nav ul li a.new-forum
+{
+	background-image: url('chromatron/img/icons/icon_event.png');
+}
+table .actions .moderate
+{
+	background: url('thumb-up.png') no-repeat 0 0;
+}
+table .actions .settings
+{
+	background: url('chromatron/img/icons/icon_nav_settings.png') no-repeat 0 0;
+}
+table .actions .preview
+{
+	background: url('chromatron/img/icons/icon_nav_gallery.png') no-repeat 0 0;
+}
+table .actions .manage-users
+{
+	background: url('sample_user_icon.png') no-repeat 0 0;
+}
+table .actions .reset-votes
+{
+	background: url('broom.png') no-repeat 0 0;
+}
+table .actions .reject
+{
+	background: url('thumb-down.png') no-repeat 0 0;
+}
+table .actions .approve
+{
+	background: url('thumb-up.png') no-repeat 0 0;
+}
+table .actions .block-user
+{
+	background: url('chromatron/img/icons/icon_table_delete.png') no-repeat 0 0;
+}
+table .actions .unblock-user
+{
+	background-image: url('chromatron/img/icons/icon_success.png');
+}
+table .actions .admin-delete
+{
+	background: url('chromatron/img/icons/list-style/icon_list_style_cross.png') no-repeat 0 0;
+}
+
+.moderator-approved
+{
+	background-position: 10px 8px;
+	background-repeat: no-repeat;
+	background-image: url('chromatron/img/icons/icon_success.png') !important;
+	list-style: none;
+	display: block;
+	padding: 10px 10px 10px 35px;
+	overflow: hidden;
+	margin-bottom: 10px;
+	border: 1px solid;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	line-height: 100%;
+}
+
+.moderator-removed
+{
+	background-position: 10px 8px;
+	background-repeat: no-repeat;
+	background-image: url('chromatron/img/icons/icon_table_delete.png') !important;
+	list-style: none;
+	display: block;
+	padding: 10px 10px 10px 35px;
+	overflow: hidden;
+	margin-bottom: 10px;
+	border: 1px solid;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	line-height: 100%;
+}
+
+.forum-container
+{
+	overflow: scroll;
+	width: 750px;
+	height: 800px;
+}
+
+.increase span
+{
+	background-image: url('chromatron/img/widgets/widget_increase.png');
+	text-indent: -9999em;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+}
+.decrease span
+{
+	background-image: url('chromatron/img/widgets/widget_decrease.png');
+	text-indent: -9999em;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+}
+
+.avatar
+{
+	height: 200px;
+	width: 200px;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	margin-left: 10px;
+}
+
+.avatar-preview
+{
+	height: 100px;
+	width: 100px;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	margin-left: 10px;
+}
+
+.badge-preview
+{
+	height: 100px;
+	width: 100px;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	margin-left: 10px;
+}
+
+.no-moderation-items,
+.no-table-data td
+{
+	text-align: center;
+	padding-top: 50px;
+	padding-bottom: 50px;
+	font-weight: bold;
+	font-style: italic;
+	color: #AE432E;
+}

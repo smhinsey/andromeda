@@ -1,0 +1,153 @@
+﻿@using AdminComposite.Areas.Forum.InputModels
+@using AdminComposite.Extensions
+@using ForumAgent.ReadModels
+@model OrganizationUsers
+@{
+	((PaginationModel)ViewBag.Pagination).WriteTFoot = false;
+	((PaginationModel)ViewBag.Pagination).WriteTable = false;
+	((PaginationModel)ViewBag.Pagination).WriteTr = false;
+	((PaginationModel)ViewBag.Pagination).ColSpan = 4;
+}
+
+<script type="text/javascript">
+	var ORGANIZATIONUSER = { deleteUserModel : null };
+	$(document).ready(function () {
+		$("#add-user").click(function () {
+			$("<div></div>")
+				.load("/Organization/RegisterUser?organizationId=@AdminInfo.OrganizationId&currentUserId=@AdminInfo.AuthenticatedUserIdentifier")
+				.modal({
+					autoResize: true,
+					autoPosition: true,
+					position: new Array(25, 300),
+					dataCss: { backgroundColor: "#fff", overflow: "auto", height: 385, width: 635 },
+					containerCss: { height: 400, width: 650 }
+				});
+
+			return false;
+		});
+
+		$(".edit.user").click(function () {
+			var organizationId = "@AdminInfo.OrganizationId";
+			$("<div></div>")
+				.load("/Organization/UpdateUser?organizationId=@AdminInfo.OrganizationId&userId=" + $(this).attr("data-item-id"))
+				.modal({
+					autoResize: true,
+					autoPosition: true,
+					position: new Array(25, 300),
+					dataCss: { backgroundColor: "#fff", overflow: "auto", height: 385, width: 635 },
+					containerCss: { height: 400, width: 650 }
+				});
+		});
+
+		$("#save").click(function () {
+			$("#save").attr("disabled", "disabled");
+			var inputModel = UCLID.getInputModel({ commandName: "ActivateOrganizationUser", agentSystemName: "Newco.ForumAgent" });
+
+			$(".activate-user").each(function (index, item) {
+				var currentName = $(item).attr("data-item-name");
+				inputModel.UserIdentifier = $(item).attr("data-item-id");
+				inputModel.Active = $(item).is(":checked");
+				inputModel.publish();
+			});
+
+			window.location.reload();
+		});
+
+		$("#edit").click(function () {
+			$(".activate-user").removeAttr("disabled");
+			$(".actions").removeClass("hidden");	
+			$("#edit").hide();
+			$("#save").show();
+			$("#cancel").show();
+		});
+
+		$("#cancel").click(function () {
+			window.location.reload();
+		});
+	}); //document.ready
+
+	function deleteUser(userId) {
+		var inputModel = EUCLID.getInputModel({ commandName: "DeleteOrganizationUser", agentSystemName: "Newco.ForumAgent" });
+		inputModel.deleteUserModel.UserIdentifier = userId;
+		inputModel.publish();
+		window.location.reload();
+	}
+</script>
+
+<article>
+	<header>
+		<h2>Manage Organization Users</h2>
+	</header>
+
+	<section>
+		<p style="float: left">View, add and edit organization users</p>
+		<a href="#" style="float:right" class="button-link blue" id="add-user">Add User</a>
+	</section>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Active</th>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Last Login</th>
+				<th>&nbsp;</th>
+			</tr>
+		</thead>
+		@if (Model.TotalNumberOfUsers == 0)
+		{
+			<tbody class="no-table-data">
+				<tr>
+					<td colspan="5">There are no other users associated with this organization, invite one using the blue button above.</td>
+				</tr>
+			</tbody>
+		}
+		else
+		{
+			<tfoot>
+				<tr>
+					<td>
+						<ul class="button-switch">
+							<li><button type="button" id="edit">Edit</button></li>
+							<li><button type="submit" id="save" class="green" style="display: none">Save</button></li>
+							<li><button type="button" id="cancel"  style="display: none">Cancel</button></li>
+						</ul>
+					</td>
+					@Html.Partial("_pagination")
+				</tr>
+			</tfoot>
+			<tbody>
+				@foreach (var user in Model.Users)
+				{
+					var isCurrentUser = (HttpContext.Current.User.Identity.Name == user.Username);
+					<tr>
+						<td><input type="checkbox" disabled="disabled" @if (user.Active) { <text>checked="checked"</text> } @if (isCurrentUser) {<text>class="activate-current-user"</text>}else{<text>class="activate-user"</text>} data-item-id="@user.Identifier" data-item-name="@user.FirstName @user.LastName"/></td>
+						<td>
+							@if (isCurrentUser)
+							{
+								<span>(You)</span>
+							} 
+							@user.FirstName @user.LastName
+						</td>
+						<td><a href="mailto:@user.Email">@user.Email</a></td>
+						<td>@user.LastLogin.GetFriendlyRelativeTime()</td>
+						<td>
+							<ul class="actions hidden">
+								<li><a class="@if (isCurrentUser) { <text>hidden</text>} admin-delete confirmation-dialog" href="#" rel="tooltip" original-title="Delete" data-confirmation-message="Do you want to delete the user @user.FirstName @user.LastName?" data-confirm-function="deleteUser" data-item-id="@user.Identifier">Delete</a></li>
+								<li><a class="edit user" rel="tooltip" href="#" original-title="Edit" data-user-name="@user.FirstName @user.LastName" data-user-id="@user.Identifier">Edit</a></li>
+							</ul>
+						</td>
+					</tr>
+				}
+			</tbody>
+		}
+	</table>
+</article>
+
+@section Breadcrumbs {
+	<ul id="breadcrumbs">
+		<li><a href="@Url.Action("Index", "Dashboard")" title="Back to Homepage">Home</a></li>
+		<li>@AdminInfo.OrganizationName</li>
+		<li>Manage Organization Users</li>
+	</ul>
+}

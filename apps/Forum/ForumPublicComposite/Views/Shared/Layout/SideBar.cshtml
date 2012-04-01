@@ -1,0 +1,15 @@
+﻿@using ForumComposite.Models
+
+<div class="sidebar">
+	<div class="well">
+		@RenderPage("~/Views/Shared/Layout/SideBar/Badge.cshtml")       
+	</div>
+	@Html.Partial("Layout/SideBar/NewPost", new PublishPostInputModel())
+	<div class="well">
+		@RenderPage("~/Views/Shared/Layout/SideBar/Categories.cshtml")       
+		<hr/>
+		@RenderPage("~/Views/Shared/Layout/SideBar/TopUsers.cshtml")       
+		<hr/>
+		@RenderPage("~/Views/Shared/Layout/SideBar/Tags.cshtml")       
+	</div>
+</div>

@@ -1,0 +1,8 @@
+﻿<h3>Categories</h3>
+<ul>
+	@foreach (var category in ForumInfo.Categories)
+	{
+		<li><a href="@Url.RouteUrl("Category", new { categorySlug = category.Slug })">@category.Name</a> (@category.TotalPosts)</li>
+	}
+</ul>
+<p><a href="@Url.RouteUrl("Categories")">View all categories</a>.</p>
