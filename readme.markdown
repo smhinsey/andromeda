@@ -1,1 +1,1 @@
-See the [wiki](https://github.com/smhinsey/Euclid/wiki) for information on Euclid.
+See the [wiki](https://github.com/m104software/andromeda/wiki) for information on Andromeda.
