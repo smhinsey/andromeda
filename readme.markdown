@@ -1,4 +1,4 @@
-To set up a local dev environment of Andromeda, first run the .msi installers located in [prerequisites](https://github.com/m104software/andromeda/prerequisites).
+To set up a local dev environment of Andromeda, first run the .msi installers located in [prerequisites](https://github.com/m104software/andromeda/tree/master/prerequisites).
 
 Next, open Andromeda.sln, locate /Config directories and add a file to each, based on custom.config, containing your local settings and named after your machine, i.e., _machine-name_.config.
 
