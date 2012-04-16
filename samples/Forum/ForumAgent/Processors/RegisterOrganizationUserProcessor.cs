@@ -1,7 +1,7 @@
 using System;
 using System.Data.SqlTypes;
-using Euclid.Common.Storage.Model;
-using Euclid.Framework.Cqrs;
+using Andromeda.Common.Storage.Model;
+using Andromeda.Framework.Cqrs;
 using ForumAgent.Commands;
 using ForumAgent.Domain.Entities;
 

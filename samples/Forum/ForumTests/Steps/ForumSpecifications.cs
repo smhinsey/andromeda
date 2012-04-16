@@ -1,5 +1,5 @@
 using System;
-using Euclid.TestingSupport;
+using Andromeda.TestingSupport;
 using ForumAgent.Queries;
 
 namespace ForumTests.Steps

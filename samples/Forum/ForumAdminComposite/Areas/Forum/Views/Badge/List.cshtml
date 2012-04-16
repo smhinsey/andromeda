@@ -9,7 +9,7 @@
 	var forumId = "@Model.ForumIdentifier";
 	$(document).ready(function() {
 		$(".create-badge").click(function() {
-			EUCLID.showModalForm({ Url: "/Forum/Badge/NewBadge/?forumId=" + forumId });
+			Andromeda.showModalForm({ Url: "/Forum/Badge/NewBadge/?forumId=" + forumId });
 
 			return false;
 		});
@@ -17,7 +17,7 @@
 		$("#save").click(function() {
 			$(this).attr("disabled", "disabled");
 
-			var inputModel = EUCLID.getInputModel({ commandName: "ActivateBadge", agentSystemName: "Newco.ForumAgent" });
+			var inputModel = Andromeda.getInputModel({ commandName: "ActivateBadge", agentSystemName: "Newco.ForumAgent" });
 			$(".badge-active").each(function(index, item) {
 				var currentName = $(item).attr("data-item-name");
 				inputModel.BadgeIdentifier = $(item).attr("data-item-id");

@@ -13,7 +13,7 @@
 	$(document).ready(function() {
 
 		$(".create-category").click(function() {
-			EUCLID.showModalForm({ Url: "@Url.Action("NewCategory", "Category")?forumId=@Model.ForumIdentifier"});
+			Andromeda.showModalForm({ Url: "@Url.Action("NewCategory", "Category")?forumId=@Model.ForumIdentifier"});
 			return false;
 		});
 
@@ -50,7 +50,7 @@
 
 		$("#save").click(function() {
 			$("#save").attr("disabled", "disabled");
-			var inputModel = EUCLID.getInputModel({ commandName: "ActivateCategory", agentSystemName: "Newco.ForumAgent" });
+			var inputModel = Andromeda.getInputModel({ commandName: "ActivateCategory", agentSystemName: "Newco.ForumAgent" });
 			$(".category-active").each(function(index, item) {
 				inputModel.CategoryIdentifier = $(item).attr("data-item-id");
 				inputModel.Active = $(item).is(":checked");

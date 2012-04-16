@@ -1,5 +1,5 @@
 ﻿@using AdminComposite.Areas.Forum.InputModels
-@using Euclid.Composites.Mvc
+@using Andromeda.Composites.Mvc
 @model AdminComposite.Areas.Forum.InputModels.CreateOrganizationAndRegisterUserInputModel
 		   
 @{
@@ -17,13 +17,13 @@
 //		$("#submit-form").click(function () {
 //			var processForm = true;
 //			if ($("#password").val() != $("#confirm-password").val()) {
-//				EUCLID.displayError({ name: "Password error", message: "The password and confirmation don't match" });
+//				Andromeda.displayError({ name: "Password error", message: "The password and confirmation don't match" });
 //				processForm = false;
 //				event.preventDefaults();
 //			}
 
 //			if (!validUsername) {
-//				EUCLID.displayError({ name: "Invalid username", message: "The username you've entered is already taken" });
+//				Andromeda.displayError({ name: "Invalid username", message: "The username you've entered is already taken" });
 //				processForm = false;
 //				event.preventDefaults();
 //			}
@@ -60,7 +60,7 @@
 		});
 
 //		function doesUsernameExist(username) {
-//			var results = EUCLID.executeQuery({ queryName: "OrganizationUserQueries", methodName: "FindByUsername", parameters: { username: username} });
+//			var results = Andromeda.executeQuery({ queryName: "OrganizationUserQueries", methodName: "FindByUsername", parameters: { username: username} });
 //			return results != null;
 //		}
 	});

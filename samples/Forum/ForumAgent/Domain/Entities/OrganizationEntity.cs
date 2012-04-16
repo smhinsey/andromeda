@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Euclid.Common.Storage;
+using Andromeda.Common.Storage;
 
 namespace ForumAgent.Domain.Entities
 {

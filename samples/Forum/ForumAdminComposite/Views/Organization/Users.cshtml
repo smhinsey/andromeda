@@ -67,7 +67,7 @@
 	}); //document.ready
 
 	function deleteUser(userId) {
-		var inputModel = EUCLID.getInputModel({ commandName: "DeleteOrganizationUser", agentSystemName: "Newco.ForumAgent" });
+		var inputModel = Andromeda.getInputModel({ commandName: "DeleteOrganizationUser", agentSystemName: "Newco.ForumAgent" });
 		inputModel.deleteUserModel.UserIdentifier = userId;
 		inputModel.publish();
 		window.location.reload();

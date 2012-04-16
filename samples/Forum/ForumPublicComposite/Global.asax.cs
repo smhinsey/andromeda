@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
-using Euclid.Common.Logging;
+using Andromeda.Common.Logging;
 
 namespace ForumPublicComposite
 {

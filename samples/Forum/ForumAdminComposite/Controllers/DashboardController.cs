@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using Euclid.Common.Logging;
+using Andromeda.Common.Logging;
 
 namespace AdminComposite.Controllers
 {

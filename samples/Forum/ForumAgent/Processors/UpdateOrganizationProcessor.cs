@@ -1,6 +1,6 @@
 ﻿using System;
-using Euclid.Common.Storage.NHibernate;
-using Euclid.Framework.Cqrs;
+using Andromeda.Common.Storage.NHibernate;
+using Andromeda.Framework.Cqrs;
 using ForumAgent.Commands;
 using ForumAgent.Domain.Entities;
 using NHibernate;

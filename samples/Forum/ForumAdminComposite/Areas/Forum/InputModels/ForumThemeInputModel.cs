@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Euclid.Composites.Mvc.Models;
+using Andromeda.Composites.Mvc.Models;
 using ForumAgent.Commands;
 using ForumAgent.ReadModels;
 

@@ -1,4 +1,4 @@
-using Euclid.TestingSupport;
+using Andromeda.TestingSupport;
 using ForumAgent.Commands;
 using NUnit.Framework;
 using TechTalk.SpecFlow;

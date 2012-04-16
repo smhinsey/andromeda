@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Euclid.Composites.Mvc.Models;
+using Andromeda.Composites.Mvc.Models;
 using ForumAgent;
 using ForumAgent.Commands;
 

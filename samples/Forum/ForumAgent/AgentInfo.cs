@@ -1,11 +1,10 @@
-﻿using Euclid.Framework.Agent;
+﻿using Andromeda.Framework.Agent;
 using ForumAgent.Commands;
 using ForumAgent.Processors;
 using ForumAgent.Queries;
 using ForumAgent.ReadModels;
 
-[assembly:
-	AgentDescription(Value = "The Forum Agent supports posting, commenting, voting, moderation, and basic user profiles.")]
+[assembly: AgentDescription(Value = "The Forum Agent supports posting, commenting, voting, moderation, and basic user profiles.")]
 [assembly: AgentName(Value = "NewCo Forum Agent")]
 [assembly: AgentSystemName(Value = "NewCo.ForumAgent")]
 [assembly: LocationOfCommands(NamespaceOfType = typeof(CommentOnPost))]

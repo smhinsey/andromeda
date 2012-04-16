@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Euclid.Common.Messaging;
-using Euclid.Framework.Models;
-using Euclid.TestingSupport;
+using Andromeda.Common.Messaging;
+using Andromeda.Framework.Models;
+using Andromeda.TestingSupport;
 using ForumAgent.Commands;
 using ForumAgent.Queries;
 using ForumAgent.ReadModels;

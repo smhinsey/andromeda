@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Euclid.Framework.Cqrs.NHibernate;
+using Andromeda.Framework.Cqrs.NHibernate;
 using ForumAgent.Domain.Entities;
 using ForumAgent.ReadModels;
 using NHibernate;

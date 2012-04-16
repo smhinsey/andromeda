@@ -18,21 +18,21 @@
 		$($(".moderation-item.unread")[0]).addClass("current-unread");
 
 		try {
-			MODERATION.blockModel = EUCLID.getModel({ commandName: "BlockUser" });
+			MODERATION.blockModel = Andromeda.getModel({ commandName: "BlockUser" });
 		} catch(e) {
-			EUCLID.displayError("Unable to get input model for command BlockUser", e.name + "<br />" + e.message);
+			Andromeda.displayError("Unable to get input model for command BlockUser", e.name + "<br />" + e.message);
 		}
 
 		try {
-			MODERATION.approveModel = EUCLID.getModel({ commandName: "@approveCommand"});
+			MODERATION.approveModel = Andromeda.getModel({ commandName: "@approveCommand"});
 		} catch(e) {
-			EUCLID.displayError("Unable to get input model for command @approveCommand", e.name + "<br />" + e.message);
+			Andromeda.displayError("Unable to get input model for command @approveCommand", e.name + "<br />" + e.message);
 		}
 
 		try {
-			MODERATION.rejectModel = EUCLID.getModel({ commandName: "@rejectCommand"});
+			MODERATION.rejectModel = Andromeda.getModel({ commandName: "@rejectCommand"});
 		} catch(e) {
-			EUCLID.displayError("Unable to get input model for command @rejectCommand", e.name + "<br />" + e.message);
+			Andromeda.displayError("Unable to get input model for command @rejectCommand", e.name + "<br />" + e.message);
 		}
 
 		$(document).keydown(function(event) {
@@ -100,9 +100,9 @@
 	function blockUser(userId) {
 		try {
 			MODERATION.blockModel.UserIdentifier = userId;
-			EUCLID.publish(MODERATION.blockModel);
+			Andromeda.publish(MODERATION.blockModel);
 		} catch(e) {
-			EUCLID.displayError("Unable to block user", e.name + "<br />" + e.message);
+			Andromeda.displayError("Unable to block user", e.name + "<br />" + e.message);
 		}
 	}
 
@@ -110,9 +110,9 @@
 		try {
 			MODERATION.rejectModel.PostIdentifier = postId;
 			MODERATION.rejectModel.CreatedBy = "@Model.CurrentUserId";
-			EUCLID.publish(MODERATION.rejectModel);
+			Andromeda.publish(MODERATION.rejectModel);
 		} catch(e) {
-			EUCLID.displayError("Unable to reject item", e.name + "<br />" + e.message);
+			Andromeda.displayError("Unable to reject item", e.name + "<br />" + e.message);
 		}
 
 		updateItem(postId, "moderator-removed", "rejected");
@@ -123,9 +123,9 @@
 			MODERATION.approveModel.PostIdentifier = postId;
 			MODERATION.approveModel.CreatedBy = "@Model.CurrentUserId";
 			MODERATION.approveModel.ApprovedBy = "@Model.CurrentUserId";
-			EUCLID.publish(MODERATION.approveModel);
+			Andromeda.publish(MODERATION.approveModel);
 		} catch(e) {
-			EUCLID.displayError("Unable to approve item", e.name + "<br />" + e.message);
+			Andromeda.displayError("Unable to approve item", e.name + "<br />" + e.message);
 		}
 
 		updateItem(postId, "moderator-approved", "approved");

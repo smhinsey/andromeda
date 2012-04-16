@@ -13,7 +13,7 @@
 	$(document).ready(function() {
 
 		$(".create-tag").click(function() {
-			EUCLID.showModalForm({ Url: "@Url.Action("NewTag", "Tag")?forumId=@Model.ForumIdentifier"});
+			Andromeda.showModalForm({ Url: "@Url.Action("NewTag", "Tag")?forumId=@Model.ForumIdentifier"});
 			return false;
 		});
 
@@ -50,7 +50,7 @@
 
 		$("#save").click(function() {
 			$("#save").attr("disabled", "disabled");
-			var inputModel = EUCLID.getInputModel({ commandName: "ActivateTag", agentSystemName: "Newco.ForumAgent" });
+			var inputModel = Andromeda.getInputModel({ commandName: "ActivateTag", agentSystemName: "Newco.ForumAgent" });
 
 			$(".tag-active").each(function(index, item) {
 				inputModel.TagIdentifier = $(item).attr("data-item-id");

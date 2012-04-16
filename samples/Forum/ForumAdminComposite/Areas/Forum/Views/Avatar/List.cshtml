@@ -15,14 +15,14 @@
 	var forumId = "@Model.ForumIdentifier";
 	$(document).ready(function() {
 		$(".create-avatar").click(function() {
-			EUCLID.showModalForm({ Url: "@Url.Action("NewAvatar", new { forumId = Model.ForumIdentifier})" });
+			Andromeda.showModalForm({ Url: "@Url.Action("NewAvatar", new { forumId = Model.ForumIdentifier})" });
 
 			return false;
 		});
 
 		$("#save").click(function() {
 			$(this).attr("disabled", "disabled");
-			var inputModel = EUCLID.getInputModel({ commandName: "ActivateAvatar", agentSystemName: "Newco.ForumAgent" });
+			var inputModel = Andromeda.getInputModel({ commandName: "ActivateAvatar", agentSystemName: "Newco.ForumAgent" });
 
 			$(".avatar-active").each(function(index, item) {
 				var currentName = $(item).attr("data-item-name");
@@ -63,7 +63,7 @@
 	});
 
 	function deleteAvatar(avatarId) {
-		var inputModel = EUCLID.getInputModel({ commandName: "DeleteAvatar", agentSystemName: "Newco.ForumAgent" });
+		var inputModel = Andromeda.getInputModel({ commandName: "DeleteAvatar", agentSystemName: "Newco.ForumAgent" });
 		inputModel.AvatarIdentifier = avatarId;
 		inputModel.publish();
 

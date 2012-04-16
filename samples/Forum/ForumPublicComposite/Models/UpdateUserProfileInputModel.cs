@@ -1,5 +1,5 @@
 ﻿using System;
-using Euclid.Composites.Mvc.Models;
+using Andromeda.Composites.Mvc.Models;
 using ForumAgent.Commands;
 
 namespace ForumComposite.Models

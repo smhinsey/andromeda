@@ -12,13 +12,13 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$(".add-content").click(function() {
-			EUCLID.showModalForm({ Url:"@Url.Action("NewStopWord", "ProfanityFilter", new { forumId = Model.ForumIdentifier })"});
+			Andromeda.showModalForm({ Url:"@Url.Action("NewStopWord", "ProfanityFilter", new { forumId = Model.ForumIdentifier })"});
 			return false;
 		});
 
 		$("#save").click(function() {
 			$("#save").attr("disabled", "disabled");
-			var inputModel = EUCLID.getInputModel({ commandName: "ActivateStopWord", agentSystemName: "Newco.ForumAgent" });
+			var inputModel = Andromeda.getInputModel({ commandName: "ActivateStopWord", agentSystemName: "Newco.ForumAgent" });
 
 			$(".stopWord-active").each(function(index, item) {
 				inputModel.StopWordIdentifier = $(item).attr("data-item-id");
@@ -45,7 +45,7 @@
 	});
 
 	function deleteStopWord(stopWordId) {
-		var inputModel = EUCLID.getInputModel({ commandName: "DeleteStopWord", agentSystemName: "Newco.ForumAgent" });
+		var inputModel = Andromeda.getInputModel({ commandName: "DeleteStopWord", agentSystemName: "Newco.ForumAgent" });
 		inputModel.StopWordIdentifier = stopWordId;
 		inputModel.publish();
 

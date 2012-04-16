@@ -1,4 +1,4 @@
-﻿using Euclid.Common.Messaging;
+﻿using Andromeda.Common.Messaging;
 
 namespace ForumAgent.Domain
 {

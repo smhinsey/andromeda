@@ -1,5 +1,5 @@
 using System;
-using Euclid.Framework.Cqrs.NHibernate;
+using Andromeda.Framework.Cqrs.NHibernate;
 using ForumAgent.ReadModels;
 using NHibernate;
 

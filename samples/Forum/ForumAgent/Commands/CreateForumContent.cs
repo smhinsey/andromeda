@@ -1,5 +1,5 @@
 ﻿using System;
-using Euclid.Framework.Cqrs;
+using Andromeda.Framework.Cqrs;
 
 namespace ForumAgent.Commands
 {

@@ -1,10 +1,12 @@
 using System;
-using Euclid.Framework.Models;
+using Andromeda.Framework.Models;
 
 namespace ForumAgent.ReadModels
 {
 	public class OrganizationUser : SyntheticReadModel
 	{
+		public virtual bool Active { get; set; }
+
 		public virtual string Email { get; set; }
 
 		public virtual string FirstName { get; set; }
@@ -20,7 +22,5 @@ namespace ForumAgent.ReadModels
 		public virtual string PasswordSalt { get; set; }
 
 		public virtual string Username { get; set; }
-
-		public virtual bool Active { get; set; }
 	}
 }

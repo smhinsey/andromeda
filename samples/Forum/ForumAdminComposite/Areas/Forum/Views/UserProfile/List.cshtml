@@ -14,7 +14,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#invite-users").click(function() {
-			EUCLID.showModalForm("@Url.Action("Invite", "UserProfile", new { forumId = Model.ForumIdentifier })");
+			Andromeda.showModalForm("@Url.Action("Invite", "UserProfile", new { forumId = Model.ForumIdentifier })");
 			return false;
 		});
 
@@ -34,7 +34,7 @@
 		$("#save").click(function() {
 			$("#save").attr("disabled", "disabled");
 
-			var inputModel = EUCLID.getInputModel({ commandName: "ActivateForumUser", agentSystemName: "Newco.ForumAgent" });
+			var inputModel = Andromeda.getInputModel({ commandName: "ActivateForumUser", agentSystemName: "Newco.ForumAgent" });
 			$(".activate-user").each(function(index, item) {
 				inputModel.UserIdentifier = $(item).attr("data-item-id");
 				inputModel.Active = $(item).is(":checked");
@@ -58,7 +58,7 @@
 	});
 
 	function blockUser(userId) {
-		var inputModel = EUCLID.getInputModel({ commandName: "BlockUser", agentSystemName: "Newco.ForumAgent" });
+		var inputModel = Andromeda.getInputModel({ commandName: "BlockUser", agentSystemName: "Newco.ForumAgent" });
 		inputModel.UserIdentifier = userId;
 		inputModel.publish();
 
@@ -68,7 +68,7 @@
 	}
 
 	function unblockUser(userId) {
-		var inputModel = EUCLID.getModel({ commandName: "UnblockUser", agentSystemName: "Newco.ForumAgent" });
+		var inputModel = Andromeda.getModel({ commandName: "UnblockUser", agentSystemName: "Newco.ForumAgent" });
 		inputModel.UserIdentifier = userId;
 		inputModel.publish();
 
@@ -78,7 +78,7 @@
 	}
 
 	function deleteUser(userId) {
-		var inputModel = EUCLID.getInputModel({ commandName: "DeleteForumUser", agentSystemName: "Newco.ForumAgent" });
+		var inputModel = Andromeda.getInputModel({ commandName: "DeleteForumUser", agentSystemName: "Newco.ForumAgent" });
 		inputModel.UserIdentifier = userId;
 		inputModel.publish();
 

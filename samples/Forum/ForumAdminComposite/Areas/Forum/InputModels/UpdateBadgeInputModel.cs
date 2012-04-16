@@ -1,7 +1,7 @@
 using System;
 using System.Web;
 using System.Web.Mvc;
-using Euclid.Composites.Mvc.Models;
+using Andromeda.Composites.Mvc.Models;
 using ForumAgent.Commands;
 
 namespace AdminComposite.Areas.Forum.InputModels

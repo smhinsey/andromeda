@@ -12,7 +12,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$(".add-content").click(function() {
-			EUCLID.showModalForm({ Url:"@Url.Action("NewContent", "Content", new { forumId = Model.ForumIdentifier })"});
+			Andromeda.showModalForm({ Url:"@Url.Action("NewContent", "Content", new { forumId = Model.ForumIdentifier })"});
 			return false;
 		});
 
@@ -60,7 +60,7 @@
 
 		$("#save").click(function() {
 			$("#save").attr("disabled", "disabled");
-			var inputModel = EUCLID.getInputModel({ commandName: "ActivateContent", agentSystemName: "NewCo.ForumAgent" });
+			var inputModel = Andromeda.getInputModel({ commandName: "ActivateContent", agentSystemName: "NewCo.ForumAgent" });
 			$(".content-active").each(function(index, item) {
 				inputModel.ContentIdentifier = $(item).attr("data-item-id");
 				inputModel.Active = $(item).is(":checked");
@@ -72,7 +72,7 @@
 	});
 
 	function deleteContent(contentId) {
-		var inputModel = EUCLID.getInputModel({ commandName: "DeleteForumContent", agentSystemName: "NewCo.ForumAgent" });
+		var inputModel = Andromeda.getInputModel({ commandName: "DeleteForumContent", agentSystemName: "NewCo.ForumAgent" });
 		inputModel.ContentIdentifier = contentId;
 		inputModel.publish(); 
 		window.location.reload();

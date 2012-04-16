@@ -27,8 +27,8 @@ $.fn.selectRange = function (start, end) {
 	});
 };
 
-if (EUCLID) {
-	EUCLID.showModalForm = (function(args) {
+if (Andromeda) {
+	Andromeda.showModalForm = (function(args) {
 		if (args === null || args === undefined || !args.hasOwnProperty("Url")) {
 			throw new {
 				name: "Invalid Argument Exception",
@@ -37,7 +37,7 @@ if (EUCLID) {
 		}
 		;
 
-		var id = EUCLID.getId();
+		var id = Andromeda.getId();
 		var modal = $("<div id='" + id + "'></div>");
 		$(modal).load(
 			args.Url,

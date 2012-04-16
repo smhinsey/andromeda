@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
-using Euclid.Common.Messaging;
-using Euclid.TestingSupport;
+using Andromeda.Common.Messaging;
+using Andromeda.TestingSupport;
 using ForumAgent.Commands;
 using ForumAgent.Queries;
 using NUnit.Framework;

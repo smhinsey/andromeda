@@ -3,7 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using AdminComposite.Areas.Forum.InputModels;
-using Euclid.Common.Messaging;
+using Andromeda.Common.Messaging;
 using ForumAgent.Commands;
 using ForumAgent.Queries;
 

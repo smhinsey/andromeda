@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Euclid.Composites.Mvc.Models;
-using Euclid.Composites.Mvc.Validation;
+using Andromeda.Composites.Mvc.Models;
+using Andromeda.Composites.Mvc.Validation;
 using ForumAgent.Commands;
 
 namespace AdminComposite.Areas.Forum.InputModels

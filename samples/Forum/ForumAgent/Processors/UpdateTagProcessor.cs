@@ -1,7 +1,7 @@
 using System;
-using Euclid.Common.Extensions;
-using Euclid.Common.Storage.Model;
-using Euclid.Framework.Cqrs;
+using Andromeda.Common.Extensions;
+using Andromeda.Common.Storage.Model;
+using Andromeda.Framework.Cqrs;
 using ForumAgent.Commands;
 using ForumAgent.ReadModels;
 

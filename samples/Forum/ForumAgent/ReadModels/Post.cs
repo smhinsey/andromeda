@@ -1,5 +1,5 @@
 ﻿using System;
-using Euclid.Framework.Models;
+using Andromeda.Framework.Models;
 
 namespace ForumAgent.ReadModels
 {
@@ -25,9 +25,9 @@ namespace ForumAgent.ReadModels
 
 		public virtual string Slug { get; set; }
 
-		public virtual string Title { get; set; }
-		
 		public virtual string Tags { get; set; }
+
+		public virtual string Title { get; set; }
 
 		public virtual int TotalVotes { get; set; }
 	}
