@@ -1,4 +1,4 @@
-﻿using Euclid.Framework.Agent;
+﻿using Andromeda.Framework.Agent;
 using StorefrontAgent.Commands;
 using StorefrontAgent.Processors;
 using StorefrontAgent.Queries;

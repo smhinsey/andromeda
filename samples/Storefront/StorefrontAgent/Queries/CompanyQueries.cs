@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Euclid.Framework.Cqrs.NHibernate;
+using Andromeda.Framework.Cqrs.NHibernate;
 using NHibernate;
 using StorefrontAgent.ReadModels;
 

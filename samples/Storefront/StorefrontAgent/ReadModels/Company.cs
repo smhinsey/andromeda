@@ -1,4 +1,4 @@
-﻿using Euclid.Framework.Models;
+﻿using Andromeda.Framework.Models;
 
 namespace StorefrontAgent.ReadModels
 {
